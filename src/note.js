@@ -1,0 +1,3 @@
+var Note = function( note )
+{
+}
