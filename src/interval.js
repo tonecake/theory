@@ -18,19 +18,30 @@ Interval.prototype.get = function()
 {
 }
 
-Interval.prototype.raise = function()
+Interval.prototype.raise = function( repeat )
 {
-    this.set( this.alteration + ( this.space + 7 ) );
+    if( !repeat ) repeat = 0;
+
+    for( var i=0; i<repeat; i++ )
+    {
+        this.set( this.alteration + ( this.space + 7 ) );
+    }
 }
 
-Interval.prototype.reduce = function()
+Interval.prototype.reduce = function( repeat )
 {
-    if( this.space < 7 )
-    {
-        return false;
-    }
+    if( !repeat ) repeat = 0;
 
-    this.set( this.alteration + ( this.space - 7 ) );
+    for( var i=0; i<repeat; i++ )
+    {
+        if( this.space < 7 )
+        {
+            return false;
+            break;
+        }
+
+        this.set( this.alteration + ( this.space - 7 ) );
+    }
 }
 
 Interval.prototype.simple = function()
