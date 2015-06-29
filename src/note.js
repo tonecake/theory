@@ -2,7 +2,7 @@
 
 var Note = function( note )
 {
-    this.note = note.substr(0,1).toUpperCase() + note.substr(1);
+    this.note = note.substr(0,1).toUpperCase() + note.substr(1).toLowerCase();
 }
 
 Note.prototype.toNumber = function()
