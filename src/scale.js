@@ -16,6 +16,23 @@ Scale.prototype.get = function()
 
 Scale.prototype.chromatic = function()
 {
+    var normalScale;
+
+    if( this.type === '#' )
+    {
+        normalScale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    }
+    else
+    {
+        normalScale = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+    }
+
+    var primePosition = normalScale.indexOf( this.note ),
+
+        mainScale = normalScale.slice( primePosition, normalScale.length ),
+        annexScale = normalScale.slice( 0, primePosition );
+
+    return mainScale.concat( annexScale );
 }
 
 Scale.prototype.checkTypeOfScale = function()
