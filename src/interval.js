@@ -7,15 +7,15 @@ var Interval = function( interval )
     this.set( interval );
 }
 
-Interval.prototype.get = function()
-{
-}
-
 Interval.prototype.set = function( interval )
 {
     this.interval = interval;
     this.space = parseInt( interval.substr(1, interval.length) );
     this.alteration = interval.substr(0, 1);
+}
+
+Interval.prototype.get = function()
+{
 }
 
 Interval.prototype.raise = function()
@@ -31,6 +31,11 @@ Interval.prototype.reduce = function()
     }
 
     this.set( this.alteration + ( this.space - 7 ) );
+}
+
+Interval.prototype.simple = function()
+{
+    this.set( this.alteration + ( this.space - ( Math.floor( this.space / 7 ) * 7 ) ) );
 }
 
 Interval.prototype.reverse = function()
@@ -64,4 +69,27 @@ Interval.prototype.reverse = function()
             }
         }
     }
+}
+
+Interval.prototype.getSemitone = function()
+{
+    var alteration, alterations,
+        octave = Math.floor( this.space / 7 ),
+        semitone = [0, 2, 4, 5, 7, 9, 11],
+        interval = new Interval( this.interval );
+
+    interval.simple();
+
+    if( interval.space === 1 || interval.space === 4 || interval.space === 5 || interval.space === 8 )
+    {
+        alterations = ['dd', 'd', 'P', 'A', 'AA'];
+        alteration = alterations.indexOf( interval.alteration ) - 2;
+    }
+    else if(interval.space === 2 || interval.space === 3 || interval.space === 6 || interval.space === 7 )
+    {
+        alterations = ['dd', 'd', 'm', 'M', 'A', 'AA'];
+        alteration = alterations.indexOf( interval.alteration ) - 3
+    }
+
+    return ( semitone[ interval.space - 1 ] + alteration ) + ( 12 * octave );
 }
