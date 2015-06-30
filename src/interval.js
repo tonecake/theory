@@ -20,7 +20,7 @@ Interval.prototype.get = function()
 
 Interval.prototype.raise = function( repeat )
 {
-    if( !repeat ) repeat = 0;
+    if( !repeat ) repeat = 1;
 
     for( var i=0; i<repeat; i++ )
     {
@@ -30,7 +30,7 @@ Interval.prototype.raise = function( repeat )
 
 Interval.prototype.reduce = function( repeat )
 {
-    if( !repeat ) repeat = 0;
+    if( !repeat ) repeat = 1;
 
     for( var i=0; i<repeat; i++ )
     {
