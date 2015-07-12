@@ -2,8 +2,6 @@
 
 var Interval = function( interval )
 {
-    this.note;
-
     this.set( interval );
 }
 
@@ -14,8 +12,21 @@ Interval.prototype.set = function( interval )
     this.alteration = interval.substr(0, 1);
 }
 
-Interval.prototype.get = function()
+Interval.prototype.get = function( index, destination )
 {
+
+}
+
+// return note String
+Interval.prototype.calculate = function( index, direction )
+{
+    var scale = new Scale(index + ' major').chromatic(),
+        note = scale[this.getSemitoneBySpace(this.interval)];
+
+    var ctx = new Note( note );
+    ctx.accidentalize( this.getSemitone() - this.getSemitoneBySpace() );
+
+    return ctx.note;
 }
 
 Interval.prototype.raise = function( repeat )
@@ -103,4 +114,12 @@ Interval.prototype.getSemitone = function()
     }
 
     return ( semitone[ interval.space - 1 ] + alteration ) + ( 12 * octave );
+}
+
+Interval.prototype.getSemitoneBySpace = function()
+{
+    var semitone = [0, 2, 4, 5, 7, 9, 11],
+        interval = new Interval( this.interval );
+
+    return semitone[ interval.space - 1 ];
 }

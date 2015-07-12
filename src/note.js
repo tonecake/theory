@@ -2,7 +2,24 @@
 
 var Note = function( note )
 {
-    this.note = note.substr(0,1).toUpperCase() + note.substr(1).toLowerCase();
+    this.set( note );
+}
+
+Note.prototype.set = function( string )
+{
+    var octave;
+    if( (string.substring(string.length-1,string.length) in [,'1','2','3','4','5','6','7','8','9']) )
+    {
+        octave = parseInt( string.substring(string.length-1,string.length) );
+        string = string.substring(0,string.length-1);
+    }
+    else
+    {
+        octave = 4; // default
+    }
+
+    this.note = string.substr(0,1).toUpperCase() + string.substr(1).toLowerCase();
+    this.octave = octave;
 }
 
 Note.prototype.toNumber = function()
