@@ -12,25 +12,39 @@ var Scale = function( tonality )
 
 Scale.prototype.get = function()
 {
+    var fifth = ['F', 'C', 'G', 'D', 'A', 'E', 'B'],
+        defaultScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+        prime = this.note.substr(0, 1),
+        positionOfPrime = defaultScale.indexOf( prime ),
+        mainScale = defaultScale.slice( positionOfPrime, defaultScale.length ),
+        annexScale = defaultScale.slice( 0, positionOfPrime );
+
+    defaultScale = mainScale.concat( annexScale );
+    console.log(defaultScale);
+
+    if( this.type === 'b' ) fifth = fifth.reverse();
+
+    // 이어서 완성하기.
+
 }
 
 Scale.prototype.chromatic = function()
 {
-    var normalScale;
+    var defaultScale;
 
     if( this.type === '#' )
     {
-        normalScale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+        defaultScale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
     }
     else
     {
-        normalScale = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+        defaultScale = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
     }
 
-    var primePosition = normalScale.indexOf( this.note ),
+    var positionOfPrime = defaultScale.indexOf( this.note ),
 
-        mainScale = normalScale.slice( primePosition, normalScale.length ),
-        annexScale = normalScale.slice( 0, primePosition );
+        mainScale = defaultScale.slice( positionOfPrime, defaultScale.length ),
+        annexScale = defaultScale.slice( 0, positionOfPrime );
 
     return mainScale.concat( annexScale );
 }
