@@ -2,12 +2,15 @@
 
 var Scale = function( tonality )
 {
+    if( tonality ) this.set( tonality )
+}
+
+Scale.prototype.set = function( tonality )
+{
     this.note = tonality.substr(0,1).toUpperCase() + tonality.substr(1, tonality.length-7).toLowerCase();
     this.quality = tonality.substr(tonality.length - 5).toLowerCase();
     this.tonality = this.note + ' ' + this.quality;
-
     this.type = this.checkTypeOfScale(); // 'b' or '#'
-//    this.scale = this.get();
 }
 
 Scale.prototype.get = function()
@@ -41,12 +44,61 @@ Scale.prototype.chromatic = function()
         defaultScale = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
     }
 
-    var positionOfPrime = defaultScale.indexOf( this.note ),
+    // if prieme has invaild value on 12 Scale System.
+    if( !(this.note in ['E#', 'Fb', 'B#', 'Cb']) )
+    {
+        switch( this.note )
+        {
+            case 'E#':
+                defaultScale[ defaultScale.indexOf('F') ] = 'E#';
+                break;
+            case 'Fb':
+                defaultScale[ defaultScale.indexOf('E') ] = 'Fb';
+                break;
+            case 'B#':
+                defaultScale[ defaultScale.indexOf('C') ] = 'B#';
+                break;
+            case 'Cb':
+                defaultScale[ defaultScale.indexOf('B') ] = 'Cb';
+                break;
+        }
+    }
 
-        mainScale = defaultScale.slice( positionOfPrime, defaultScale.length ),
-        annexScale = defaultScale.slice( 0, positionOfPrime );
+    var positionOfPrime = defaultScale.indexOf( this.note );
 
-    return mainScale.concat( annexScale );
+    return this.align( defaultScale, positionOfPrime );
+}
+
+Scale.absolute = Scale.prototype.absolute = function()
+{
+    var positionOfPrime,
+        absolute = [["C", "B#","Dbb"],["C#", "Db", "Bx"],["D", "Cx", "Ebb"],["D#", "Eb", "Fbb"],["E", "Fb", "Dx"],["F", "E#", "Gbb"],["F#", "Gb", "Ex"],["G", "Fx", "Abb"],["G#" ,"Ab"],["A", "Gx", "Bbb"],["A#", "Bb", "Cbb"],["B", "Cb", "Ax"]];
+
+    if( this instanceof Scale )
+    {
+        var prime = this.chromatic[0]
+        for( var i=0; i<absolute.length; i++ )
+        {
+            for( var j=0; j<absolute[i].length; j++ )
+            {
+                if(absolute[i][j] === this.note)
+                {
+                    positionOfPrime = i;
+                    break;
+                }
+            }
+        }
+    }
+
+    return this.align( absolute, positionOfPrime);
+}
+
+Scale.prototype.align = function( scale, index )
+{
+    var main = scale.slice( index, scale.length ),
+        annex = scale.slice( 0, index );
+
+    return main.concat( annex );
 }
 
 Scale.prototype.checkTypeOfScale = function()
