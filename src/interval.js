@@ -8,7 +8,7 @@ var Interval = function( interval )
 Interval.prototype.set = function( interval )
 {
     this.interval = interval;
-    this.space = parseInt( interval.substr(1, interval.length) );
+    this.space = parseInt( interval.substr(interval.length - 1, interval.length) );
     this.alteration = interval.substr(0, 1);
 }
 
