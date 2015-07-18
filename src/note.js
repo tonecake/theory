@@ -2,7 +2,7 @@
 
 var Note = function( note )
 {
-    this.set( note );
+    if( note ) this.set( note );
 }
 
 Note.prototype.set = function( string )

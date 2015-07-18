@@ -2,7 +2,7 @@
 
 var Interval = function( interval )
 {
-    this.set( interval );
+    if( interval ) this.set( interval );
 }
 
 Interval.prototype.set = function( interval )
@@ -12,9 +12,60 @@ Interval.prototype.set = function( interval )
     this.alteration = interval.substr(0, 1);
 }
 
-Interval.prototype.get = function( index, destination )
+Interval.get = Interval.prototype.get = function( index, destination )
 {
+    if( !(index instanceof Note) || !(destination instanceof Note) )
+    {
+        index = new Note( index );
+        destination = new Note( destination );
+    }
 
+    var scale = new Scale(index.note + ' major').absolute(),
+        semitone;
+
+    for( i=0; i<scale.length; i++ )
+    {
+        for( j=0; j<scale[i].length; j++ )
+        {
+            if( scale[i][j] === destination.note )
+            {
+                semitone = i; // +1
+                break;
+            }
+        }
+    }
+
+    var space,
+        semitoneIndex = [0, 2, 4, 5, 7, 9, 11],
+        defaultScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+
+    defaultScale = new Scale().align( defaultScale, defaultScale.indexOf(index.note.substr(0,1)) );
+    space = defaultScale.indexOf(destination.note.substr(0,1)); // +1
+
+    var alteration;
+
+    if( space === 0 || space === 3 || space === 4 || space === 7 )
+    {
+        var alterations = ['ddd', 'dd', 'd', 'P', 'A', 'AA', 'AAA'];
+        alteration = alterations[ semitone - semitoneIndex[space] + 3 ];
+    }
+    else if( space === 1 || space === 2 || space === 5 || space === 6 )
+    {
+        var alterations = ['ddd', 'dd', 'd', 'm', 'M', 'A', 'AA', 'AAA'];
+        alteration = alterations[ semitone - semitoneIndex[space] + 4 ];
+    }
+
+    var result = alteration + (space + 1)
+//    console.log(space, semitone, semitoneIndex[space], alteration); // debug script
+
+    if( this instanceof Interval )
+    {
+        this.set(result);
+    }
+    else
+    {
+        return new Interval(result);
+    }
 }
 
 // return note String
