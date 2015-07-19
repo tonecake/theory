@@ -24,10 +24,8 @@ Scale.prototype.get = function()
         defaultScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
         prime = this.note.substr(0, 1),
         positionOfPrime = defaultScale.indexOf( prime ),
-        mainScale = defaultScale.slice( positionOfPrime, defaultScale.length ),
-        annexScale = defaultScale.slice( 0, positionOfPrime );
 
-    defaultScale = mainScale.concat( annexScale );
+    defaultScale = this.align( defaultScale, positionOfPrime );
 
     if( this.type === 'b' ) fifth = fifth.reverse();
 
