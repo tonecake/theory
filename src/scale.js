@@ -15,6 +15,11 @@ Scale.prototype.set = function( tonality )
 
 Scale.prototype.get = function()
 {
+    var scalePreset = {
+        "major" : ['M2', 'M2', 'm2', 'M2', 'M2', 'M2', 'm2'],
+        "minor" : ['M2', 'm2', 'M2', 'M2', 'm2', 'M2', 'M2'],
+    };
+
     var fifth = ['F', 'C', 'G', 'D', 'A', 'E', 'B'],
         defaultScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
         prime = this.note.substr(0, 1),
@@ -23,12 +28,26 @@ Scale.prototype.get = function()
         annexScale = defaultScale.slice( 0, positionOfPrime );
 
     defaultScale = mainScale.concat( annexScale );
-    console.log(defaultScale);
 
     if( this.type === 'b' ) fifth = fifth.reverse();
 
-    // 이어서 완성하기.
+    if( this.note.length > 1 ) defaultScale[ defaultScale.indexOf( this.note.substr(0,1) ) ] = this.note;
 
+    for( var i=0; i<defaultScale.length; i++ )
+    {
+        var pos1 = i,
+            pos2 = i+1;
+
+        if( i === 6 ) pos2 = 0;
+
+        var interval = Interval.get(defaultScale[pos1], defaultScale[pos2])
+        if( interval.interval != scalePreset[this.quality][i] )
+        {
+            defaultScale[i+1] = defaultScale[i+1] + this.type;
+        }
+    }
+
+    return defaultScale;
 }
 
 Scale.prototype.chromatic = function()

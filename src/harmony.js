@@ -3,3 +3,7 @@
 var Harmony = function()
 {
 }
+
+Harmony.prototype.set = function()
+{
+}

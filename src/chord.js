@@ -3,3 +3,7 @@
 var Chord = function()
 {
 }
+
+Chord.prototype.set = function()
+{
+}
