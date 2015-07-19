@@ -20,14 +20,11 @@ Scale.prototype.get = function()
         "minor" : ['M2', 'm2', 'M2', 'M2', 'm2', 'M2', 'M2'],
     };
 
-    var fifth = ['F', 'C', 'G', 'D', 'A', 'E', 'B'],
-        defaultScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+    var defaultScale = ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
         prime = this.note.substr(0, 1),
         positionOfPrime = defaultScale.indexOf( prime ),
 
     defaultScale = this.align( defaultScale, positionOfPrime );
-
-    if( this.type === 'b' ) fifth = fifth.reverse();
 
     if( this.note.length > 1 ) defaultScale[ defaultScale.indexOf( this.note.substr(0,1) ) ] = this.note;
 
