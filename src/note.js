@@ -2,6 +2,9 @@
 
 var Note = function( note )
 {
+    this.note;
+    this.octave;
+
     if( note ) this.set( note );
 }
 

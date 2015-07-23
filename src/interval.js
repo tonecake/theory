@@ -2,6 +2,10 @@
 
 var Interval = function( interval )
 {
+    this.interval;
+    this.space;
+    this.alteration;
+
     if( interval ) this.set( interval );
 }
 
@@ -68,8 +72,8 @@ Interval.get = Interval.prototype.get = function( index, destination )
     }
 }
 
-// return note String
-Interval.prototype.calculate = function( index, direction )
+// return Note context
+Interval.prototype.from = function( index, direction )
 {
     var scale = new Scale(index + ' major').chromatic(),
         note = scale[this.getSemitoneBySpace(this.interval)];
@@ -77,7 +81,7 @@ Interval.prototype.calculate = function( index, direction )
     var ctx = new Note( note );
     ctx.accidentalize( this.getSemitone() - this.getSemitoneBySpace() );
 
-    return ctx.note;
+    return ctx;
 }
 
 Interval.prototype.raise = function( repeat )

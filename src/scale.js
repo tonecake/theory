@@ -2,6 +2,11 @@
 
 var Scale = function( tonality )
 {
+    this.note;
+    this.quality;
+    this.tonality;
+    this.type;
+
     if( tonality ) this.set( tonality )
 }
 
