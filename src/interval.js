@@ -12,7 +12,7 @@ var Interval = function( interval )
 Interval.prototype.set = function( interval )
 {
     this.interval = interval;
-    this.space = parseInt( interval.substr(interval.length - 1, interval.length) );
+    this.space = parseInt( interval.substr(1, interval.length) );
     this.alteration = interval.substr(0, 1);
 }
 
@@ -119,8 +119,15 @@ Interval.prototype.reverse = function()
 {
     var result, space = [ 8, 7, 6, 5, 4, 3, 2, 1 ],
         alterations = ['ddd', 'dd', 'd', 'x', 'A', 'AA', 'AAA'],
-        alterationsReverse = [ "AAA", "AA", "A", "x", "d", "dd", "ddd" ];
+        alterationsReverse = [ "AAA", "AA", "A", "x", "d", "dd", "ddd" ],
+        octaveOrigin = 0;
 
+    while( this.space > 7 )
+    {
+        this.space = this.space - 7;
+        octaveOrigin++
+    }
+    console.log(octaveOrigin, this.space);
     if( this.alteration === 'P' )
     {
         this.set( 'P' + space[ this.space - 1 ] );
@@ -146,6 +153,8 @@ Interval.prototype.reverse = function()
             }
         }
     }
+
+    if( octaveOrigin > 0 ) this.raise(octaveOrigin);
 }
 
 Interval.prototype.getSemitone = function()
